@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+    
+    <h1>Hello, this is my ejs file</h1>
+    
+    <%#  %>
+
+<div class="d-flex gap-3 flex-wrap">
+    <% arrPerson.forEach((_, idx) => { %>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title"><%= _.firstName+ " "+ _.lastName %></h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary"><%= _.email %></h6>
+              <p class="card-text"><%= _.course %></p>
+              <div class="d-flex gap-2">
+               <form action="/editUser/<%= idx %>" method="get">
+                <button class="btn btn-primary">Edit</button>
+               </form>
+             <form action="/delete/<%= idx %>" method="post">
+                <button class="btn btn-danger">Delete</button>
+             </form>
+              </div>
+            </div>
+          </div>
+    <% }) %>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
