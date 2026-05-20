@@ -6,7 +6,7 @@ const OTPSchema =new mongoose.Schema({
     createdAt:{type:Date, default:Date.now, expires:300}
 })
 
-const OTPModel= mongoose.model(OTPSchema, "otp")
+const OTPModel= mongoose.model( "otp", OTPSchema)
 
 module.exports= OTPModel
 
