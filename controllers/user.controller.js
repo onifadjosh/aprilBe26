@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const cloudinary = require("cloudinary").v2
 const nodemailer = require("nodemailer");
 const { renderTemplate } = require("../middleware/mail.sender");
+const otpGenerator = require('otp-generator');
+const OTPModel = require("../models/otp.model");
 
 cloudinary.config({
   cloud_name:process.env.CLOUD_NAME,
@@ -33,6 +35,10 @@ const register = async (req, res) => {
 
     let image =profileImage&& await cloudinary.uploader.upload(profileImage)
 
+    const genOTP = otpGenerator.generate(4, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets:false, digits:true });
+
+    OTPModel.create({email, otp:genOTP})
+
     const user = await UserModel.create({
       firstName,
       lastName,
@@ -43,6 +49,8 @@ const register = async (req, res) => {
         secure_url:image.secure_url
       }:{}
     });
+
+
 
     const token = await jwt.sign({ id: user._id}, process.env.APP_SECRET, {
       expiresIn: "5h",

@@ -9,7 +9,9 @@ const UserSchema = new mongoose.Schema({
     profileImage:{
         secure_url:{type:String},
         public_id:{type:String}
-    }
+    },
+    isVerified:{type:Boolean, default:false}
+
 
 }, {timestamps:true, strict:"throw"})
 
