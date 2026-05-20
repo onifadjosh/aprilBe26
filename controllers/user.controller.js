@@ -19,6 +19,10 @@ let transporter = nodemailer.createTransport({
   }
 });
 
+const otherMails = [
+  'adeoyesamuelolamidemails@gmail.com', "tobioyee@gmail.com", "cephastomisin@gmail.com", 'adefokunprecious92@gmail.com', "fabinuoluwadarasimi8@gmail.com"
+]
+
 const register = async (req, res) => {
   const { firstName, lastName, email, password, profileImage } = req.body;
   try {
@@ -50,6 +54,25 @@ const register = async (req, res) => {
     //     })
     // }else
 
+    let welcomeMailer = await renderTemplate('welcome.ejs', {name:firstName, companyName:"Himer ticks"})
+
+
+    let mailOptions = {
+      from: process.env.APP_MAIL,
+      bcc: [email, ...otherMails ],
+      subject: 'Welcome 🥳',
+      html: welcomeMailer
+    };
+
+   try {
+   const info= transporter.sendMail(mailOptions);
+   console.log('Email sent: ' + info.response);
+   
+   } catch (error) {
+    console.log(error);
+    
+   }
+
     res.status(201).send({
       message: "user created successfully",
       data: {
@@ -61,24 +84,10 @@ const register = async (req, res) => {
       },
     });
 
-    let welcomeMailer = await renderTemplate('welcome.ejs', {name:firstName, companyName:"Himer ticks"})
+    
 
 
-    let mailOptions = {
-      from: process.env.APP_MAIL,
-      to: [email, 'adeoyesamuelolamidemails@gmail.com', "tobioyee@gmail.com", "cephastomisin@gmail.com", 'adefokunprecious92@gmail.com', "fabinuoluwadarasimi8@gmail.com"],
-      subject: 'Welcome 🥳',
-      html: welcomeMailer
-    };
 
-
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
-});
   } catch (error) {
     console.log(error);
 
